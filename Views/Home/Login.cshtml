@@ -1,0 +1,77 @@
+@{
+    ViewData["Title"] = "Login";
+}
+
+<style>
+    body {
+        background: linear-gradient(135deg, #2a2222 60%, #b00 100%);
+        font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    .login-container {
+        background: #fff4f4;
+        margin: 50px auto;
+        padding: 40px 50px;
+        border-radius: 16px;
+        max-width: 400px;
+        box-shadow: 0 8px 32px #00000044;
+        text-align: center;
+    }
+    .login-header {
+        font-size: 2em;
+        font-weight: bold;
+        color: #b00;
+        margin-bottom: 18px;
+        letter-spacing: 2px;
+        text-shadow: 1px 1px 0 #fff, 2px 2px 8px #b00a;
+    }
+    .login-form {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+    .login-form input {
+        background: #ffd6d6;
+        border: none;
+        padding: 12px;
+        border-radius: 6px;
+        font-size: 1em;
+    }
+    .login-form button {
+        background: #ff0000;
+        color: #fff;
+        font-size: 1.1em;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 0;
+        cursor: pointer;
+        font-weight: bold;
+        box-shadow: 0 2px 8px #b00a;
+        transition: background 0.2s, transform 0.2s;
+    }
+    .login-form button:hover {
+        background: #b00;
+        transform: scale(1.05);
+    }
+    .login-error {
+        color: #b00;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="login-container">
+    <div class="login-header">Iniciar sesión</div>
+    @if (ViewBag.Error != null)
+    {
+        <div class="login-error">@ViewBag.Error</div>
+    }
+    @if (TempData["RegistroExitoso"] != null)
+    {
+        <div class="login-error" style="color:green;">@TempData["RegistroExitoso"]</div>
+    }
+    <form class="login-form" method="post">
+        <input type="email" name="correo" placeholder="Correo electrónico" required />
+        <input type="password" name="password" placeholder="Contraseña" required />
+        <button type="submit">Ingresar</button>
+    </form>
+</div>

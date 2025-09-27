@@ -1,0 +1,58 @@
+@{
+    ViewData["Title"] = "Nuestros puntos de tienda";
+}
+
+<style>
+    body {
+        background: linear-gradient(135deg, #2a2222 60%, #b00 100%);
+        font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    .tienda-container {
+        background: #fff4f4;
+        margin: 50px auto;
+        padding: 50px 60px 40px 60px;
+        border-radius: 16px;
+        max-width: 800px;
+        box-shadow: 0 8px 32px #00000044;
+        text-align: center;
+        position: relative;
+    }
+    .tienda-header {
+        font-size: 2.2em;
+        font-weight: bold;
+        color: #b00;
+        margin-bottom: 8px;
+        letter-spacing: 2px;
+        text-shadow: 1px 1px 0 #fff, 2px 2px 8px #b00a;
+    }
+    .tienda-sub {
+        color: #222;
+        font-weight: 500;
+        font-size: 1.3em;
+        margin-bottom: 18px;
+    }
+    .tienda-imgs {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin-top: 30px;
+    }
+    .tienda-imgs img {
+        width: 220px;
+        height: 160px;
+        object-fit: cover;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px #b00a;
+        background: #ffd6d6;
+    }
+</style>
+
+<div class="tienda-container">
+    <div class="tienda-header">Nuestros puntos de tienda</div>
+    <div class="tienda-sub">Conoce nuestras ubicaciones y visita nuestras tiendas físicas</div>
+    <div class="tienda-imgs">
+        <img src="/img/apuestatotal1.png" alt="Tienda 1" />
+        <img src="/img/apuestatotal2.png" alt="Tienda 2" />
+        <img src="/img/apuestatotal3.png" alt="Tienda 3" />
+    </div>
+</div>
