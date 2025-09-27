@@ -1,0 +1,80 @@
+@model List<Partido>
+@{
+    ViewBag.Title = "Apuestas Deportivas";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="text-primary">
+                    <i class="fas fa-futbol"></i> Apuestas de Fútbol
+                </h1>
+                <a asp-action="MisApuestas" class="btn btn-outline-primary">
+                    <i class="fas fa-list"></i> Mis Apuestas
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-filter"></i> Filtrar por Liga</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <button id="btnTodasLigas" class="btn btn-outline-secondary w-100 mb-2 liga-filter active" data-liga="0">
+                            <i class="fas fa-globe"></i> Todas las Ligas
+                        </button>
+                    </div>
+                    @if (ViewBag.Ligas != null)
+                    {
+                        @foreach (var liga in (List<Liga>)ViewBag.Ligas)
+                        {
+                            <button class="btn btn-outline-primary w-100 mb-2 liga-filter" data-liga="@liga.Id">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>@liga.Nombre</span>
+                                    <small class="text-muted">@liga.Pais</small>
+                                </div>
+                            </button>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div id="partidosContainer">
+                @await Html.PartialAsync("_PartidosPartial", Model)
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $('.liga-filter').click(function() {
+                // Remover clase active de todos los botones
+                $('.liga-filter').removeClass('active');
+                
+                // Agregar clase active al botón clickeado
+                $(this).addClass('active');
+                
+                var ligaId = $(this).data('liga');
+                
+                if (ligaId == 0) {
+                    // Mostrar todos los partidos
+                    location.reload();
+                } else {
+                    // Filtrar por liga específica
+                    $.get('@Url.Action("PorLiga", "Apuestas")/' + ligaId, function(data) {
+                        $('#partidosContainer').html(data);
+                    });
+                }
+            });
+        });
+    </script>
+}

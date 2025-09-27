@@ -30,6 +30,9 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
+// Registrar servicio para datos simulados
+builder.Services.AddScoped<Grupo_negro.Services.DatosSimuladosService>();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

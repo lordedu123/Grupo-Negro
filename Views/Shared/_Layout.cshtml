@@ -7,6 +7,7 @@
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 </head>
 <body>
     <header>
@@ -27,6 +28,11 @@
                         </li>
                         @if (User.Identity.IsAuthenticated)
                         {
+                            <li class="nav-item">
+                                <a class="nav-link custom-link" asp-area="" asp-controller="Apuestas" asp-action="Index">
+                                    <i class="fas fa-futbol"></i> Apuestas
+                                </a>
+                            </li>
                             <li class="nav-item">
                                 <span class="nav-link custom-link" style="color: #fff;">¡Hola, @User.Identity.Name!</span>
                             </li>

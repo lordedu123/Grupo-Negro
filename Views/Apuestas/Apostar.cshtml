@@ -1,0 +1,174 @@
+@model ApuestaViewModel
+@{
+    ViewBag.Title = "Realizar Apuesta";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-money-bill-wave"></i> Realizar Apuesta
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <!-- Información del partido -->
+                    <div class="card mb-4 bg-light">
+                        <div class="card-body">
+                            <div class="row text-center">
+                                <div class="col-4">
+                                    <h5>@Model.NombreEquipoLocal</h5>
+                                    <span class="badge bg-success">@Model.CuotaLocal.ToString("F2")</span>
+                                </div>
+                                <div class="col-4">
+                                    <h3 class="text-primary">VS</h3>
+                                    <small class="text-muted">Empate</small><br>
+                                    <span class="badge bg-warning">@Model.CuotaEmpate.ToString("F2")</span>
+                                </div>
+                                <div class="col-4">
+                                    <h5>@Model.NombreEquipoVisitante</h5>
+                                    <span class="badge bg-success">@Model.CuotaVisitante.ToString("F2")</span>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="text-center">
+                                <small class="text-muted">
+                                    <i class="fas fa-trophy"></i> @Model.Liga |
+                                    <i class="fas fa-calendar"></i> @Model.FechaHora.ToString("dd/MM/yyyy HH:mm")
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Formulario de apuesta -->
+                    <form asp-action="Apostar" method="post" id="formApuesta">
+                        <input type="hidden" asp-for="PartidoId" />
+                        <input type="hidden" asp-for="NombreEquipoLocal" />
+                        <input type="hidden" asp-for="NombreEquipoVisitante" />
+                        <input type="hidden" asp-for="FechaHora" />
+                        <input type="hidden" asp-for="Liga" />
+                        <input type="hidden" asp-for="CuotaLocal" />
+                        <input type="hidden" asp-for="CuotaEmpate" />
+                        <input type="hidden" asp-for="CuotaVisitante" />
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Selecciona tu apuesta:</label>
+                            <div class="row">
+                                <div class="col-md-4 mb-2">
+                                    <input type="radio" asp-for="TipoApuesta" value="@TipoApuesta.GanaLocal" 
+                                           class="btn-check" id="local" name="TipoApuesta">
+                                    <label class="btn btn-outline-success w-100" for="local">
+                                        <div>@Model.NombreEquipoLocal</div>
+                                        <small>Cuota: @Model.CuotaLocal.ToString("F2")</small>
+                                    </label>
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <input type="radio" asp-for="TipoApuesta" value="@TipoApuesta.Empate" 
+                                           class="btn-check" id="empate" name="TipoApuesta">
+                                    <label class="btn btn-outline-warning w-100" for="empate">
+                                        <div>Empate</div>
+                                        <small>Cuota: @Model.CuotaEmpate.ToString("F2")</small>
+                                    </label>
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <input type="radio" asp-for="TipoApuesta" value="@TipoApuesta.GanaVisitante" 
+                                           class="btn-check" id="visitante" name="TipoApuesta">
+                                    <label class="btn btn-outline-success w-100" for="visitante">
+                                        <div>@Model.NombreEquipoVisitante</div>
+                                        <small>Cuota: @Model.CuotaVisitante.ToString("F2")</small>
+                                    </label>
+                                </div>
+                            </div>
+                            <span asp-validation-for="TipoApuesta" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="MontoApostado" class="form-label fw-bold">Monto a apostar:</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input asp-for="MontoApostado" class="form-control" type="number" 
+                                       min="1" max="10000" step="0.01" id="montoInput">
+                            </div>
+                            <span asp-validation-for="MontoApostado" class="text-danger"></span>
+                        </div>
+
+                        <!-- Cálculo de ganancia en tiempo real -->
+                        <div class="card bg-info bg-opacity-10 mb-3">
+                            <div class="card-body">
+                                <h6 class="text-info">Resumen de tu apuesta:</h6>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong>Monto apostado:</strong>
+                                    </div>
+                                    <div class="col-6 text-end">
+                                        $<span id="montoMostrar">0.00</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong>Cuota seleccionada:</strong>
+                                    </div>
+                                    <div class="col-6 text-end">
+                                        <span id="cuotaMostrar">-</span>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong class="text-success">Posible ganancia:</strong>
+                                    </div>
+                                    <div class="col-6 text-end">
+                                        <strong class="text-success">$<span id="gananciaMostrar">0.00</span></strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a asp-action="Index" class="btn btn-secondary me-md-2">
+                                <i class="fas fa-arrow-left"></i> Volver
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-check"></i> Confirmar Apuesta
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            function actualizarCalculos() {
+                var monto = parseFloat($('#montoInput').val()) || 0;
+                var tipoApuesta = $('input[name="TipoApuesta"]:checked').val();
+                var cuota = 0;
+                
+                if (tipoApuesta == '@((int)TipoApuesta.GanaLocal)') {
+                    cuota = @Model.CuotaLocal;
+                } else if (tipoApuesta == '@((int)TipoApuesta.Empate)') {
+                    cuota = @Model.CuotaEmpate;
+                } else if (tipoApuesta == '@((int)TipoApuesta.GanaVisitante)') {
+                    cuota = @Model.CuotaVisitante;
+                }
+                
+                var ganancia = monto * cuota;
+                
+                $('#montoMostrar').text(monto.toFixed(2));
+                $('#cuotaMostrar').text(cuota > 0 ? cuota.toFixed(2) : '-');
+                $('#gananciaMostrar').text(ganancia.toFixed(2));
+            }
+            
+            $('#montoInput').on('input', actualizarCalculos);
+            $('input[name="TipoApuesta"]').on('change', actualizarCalculos);
+            
+            // Actualizar al cargar la página
+            actualizarCalculos();
+        });
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+}

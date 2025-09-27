@@ -1,0 +1,180 @@
+@model List<Apuesta>
+@{
+    ViewBag.Title = "Mis Apuestas";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="text-primary">
+                    <i class="fas fa-list"></i> Mis Apuestas
+                </h1>
+                <a asp-action="Index" class="btn btn-outline-primary">
+                    <i class="fas fa-plus"></i> Nueva Apuesta
+                </a>
+            </div>
+        </div>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <!-- Resumen estadístico -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card bg-primary text-white">
+                    <div class="card-body text-center">
+                        <h4>@Model.Count</h4>
+                        <small>Total Apuestas</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-success text-white">
+                    <div class="card-body text-center">
+                        <h4>@Model.Count(a => a.Estado == EstadoApuesta.Ganada)</h4>
+                        <small>Ganadas</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-danger text-white">
+                    <div class="card-body text-center">
+                        <h4>@Model.Count(a => a.Estado == EstadoApuesta.Perdida)</h4>
+                        <small>Perdidas</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-warning text-white">
+                    <div class="card-body text-center">
+                        <h4>@Model.Count(a => a.Estado == EstadoApuesta.Activa)</h4>
+                        <small>Activas</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de apuestas -->
+        @foreach (var apuesta in Model)
+        {
+            <div class="card mb-3">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h6 class="mb-0">
+                                <span class="badge bg-primary me-2">@apuesta.Partido.Liga.Nombre</span>
+                                @apuesta.Partido.EquipoLocal.Nombre vs @apuesta.Partido.EquipoVisitante.Nombre
+                            </h6>
+                            <small class="text-muted">
+                                <i class="fas fa-calendar"></i> Apostado el @apuesta.FechaApuesta.ToString("dd/MM/yyyy HH:mm")
+                            </small>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            @switch (apuesta.Estado)
+                            {
+                                case EstadoApuesta.Activa:
+                                    <span class="badge bg-warning">Activa</span>
+                                    break;
+                                case EstadoApuesta.Ganada:
+                                    <span class="badge bg-success">Ganada</span>
+                                    break;
+                                case EstadoApuesta.Perdida:
+                                    <span class="badge bg-danger">Perdida</span>
+                                    break;
+                                case EstadoApuesta.Cancelada:
+                                    <span class="badge bg-secondary">Cancelada</span>
+                                    break;
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>Apuesta:</strong>
+                                </div>
+                                <div class="col-6">
+                                    @switch (apuesta.TipoApuesta)
+                                    {
+                                        case TipoApuesta.GanaLocal:
+                                            <span class="text-success">Gana @apuesta.Partido.EquipoLocal.Nombre</span>
+                                            break;
+                                        case TipoApuesta.Empate:
+                                            <span class="text-warning">Empate</span>
+                                            break;
+                                        case TipoApuesta.GanaVisitante:
+                                            <span class="text-success">Gana @apuesta.Partido.EquipoVisitante.Nombre</span>
+                                            break;
+                                    }
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>Monto:</strong>
+                                </div>
+                                <div class="col-6">
+                                    $@apuesta.MontoApostado.ToString("F2")
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>Cuota:</strong>
+                                </div>
+                                <div class="col-6">
+                                    @apuesta.CuotaAplicada.ToString("F2")
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>Partido:</strong>
+                                </div>
+                                <div class="col-6">
+                                    @apuesta.Partido.FechaHora.ToString("dd/MM HH:mm")
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>Posible Ganancia:</strong>
+                                </div>
+                                <div class="col-6">
+                                    <span class="text-success fw-bold">$@apuesta.PosibleGanancia.ToString("F2")</span>
+                                </div>
+                            </div>
+                            @if (apuesta.Partido.Estado == EstadoPartido.Finalizado)
+                            {
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong>Resultado:</strong>
+                                    </div>
+                                    <div class="col-6">
+                                        @apuesta.Partido.GolesLocal - @apuesta.Partido.GolesVisitante
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="card">
+            <div class="card-body text-center">
+                <div class="my-5">
+                    <i class="fas fa-money-bill-wave fa-3x text-muted mb-3"></i>
+                    <h4 class="text-muted">No tienes apuestas aún</h4>
+                    <p class="text-muted">¡Realiza tu primera apuesta y comienza a ganar!</p>
+                    <a asp-action="Index" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Hacer mi primera apuesta
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

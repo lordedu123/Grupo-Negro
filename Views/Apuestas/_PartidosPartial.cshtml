@@ -1,0 +1,76 @@
+@model List<Partido>
+
+@if (Model != null && Model.Any())
+{
+    @foreach (var partido in Model)
+    {
+        <div class="card mb-3">
+            <div class="card-header bg-light">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h6 class="mb-0">
+                            <span class="badge bg-primary me-2">@partido.Liga.Nombre</span>
+                            @partido.Jornada
+                        </h6>
+                        <small class="text-muted">
+                            <i class="fas fa-calendar"></i> @partido.FechaHora.ToString("dd/MM/yyyy HH:mm")
+                        </small>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <a asp-action="Apostar" asp-route-partidoId="@partido.Id" class="btn btn-success btn-sm">
+                            <i class="fas fa-money-bill-wave"></i> Apostar
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <!-- Equipo Local -->
+                    <div class="col-md-4">
+                        <div class="h-100 d-flex flex-column justify-content-center">
+                            <h5 class="mb-1">@partido.EquipoLocal.Nombre</h5>
+                            <small class="text-muted">@partido.EquipoLocal.Ciudad</small>
+                            <div class="mt-2">
+                                <span class="badge bg-success fs-6">@partido.CuotaLocal.ToString("F2")</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- VS y Empate -->
+                    <div class="col-md-4">
+                        <div class="h-100 d-flex flex-column justify-content-center">
+                            <h3 class="text-primary mb-2">VS</h3>
+                            <div>
+                                <small class="text-muted d-block">Empate</small>
+                                <span class="badge bg-warning fs-6">@partido.CuotaEmpate.ToString("F2")</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Equipo Visitante -->
+                    <div class="col-md-4">
+                        <div class="h-100 d-flex flex-column justify-content-center">
+                            <h5 class="mb-1">@partido.EquipoVisitante.Nombre</h5>
+                            <small class="text-muted">@partido.EquipoVisitante.Ciudad</small>
+                            <div class="mt-2">
+                                <span class="badge bg-success fs-6">@partido.CuotaVisitante.ToString("F2")</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="card">
+        <div class="card-body text-center">
+            <div class="my-5">
+                <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                <h4 class="text-muted">No hay partidos disponibles</h4>
+                <p class="text-muted">No se encontraron partidos para esta liga en este momento.</p>
+            </div>
+        </div>
+    </div>
+}
