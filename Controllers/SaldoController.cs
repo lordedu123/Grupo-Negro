@@ -22,6 +22,13 @@ namespace Grupo_negro.Controllers
         public async Task<IActionResult> Index()
         {
             var usuario = await _userManager.GetUserAsync(User);
+            
+            // Log de acceso para auditoría
+            if (usuario != null)
+            {
+                Console.WriteLine($"Usuario {usuario.Email} accedió al panel de saldo");
+            }
+            
             return View(usuario);
         }
 
