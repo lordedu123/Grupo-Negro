@@ -41,6 +41,13 @@ namespace Grupo_negro.Controllers
                 return View(model);
             }
 
+            // Validación adicional de monto
+            if (model.Monto <= 0)
+            {
+                ModelState.AddModelError("Monto", "El monto debe ser mayor a cero");
+                return View(model);
+            }
+
             var usuario = await _userManager.GetUserAsync(User);
             if (usuario == null)
             {
