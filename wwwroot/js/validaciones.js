@@ -2,6 +2,7 @@
 function validarFormulario(form) {
     const inputs = form.querySelectorAll('input[required]');
     let isValid = true;
+    let errorCount = 0;
     
     inputs.forEach(input => {
         if (!input.value.trim()) {
