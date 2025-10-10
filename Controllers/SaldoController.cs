@@ -27,6 +27,7 @@ namespace Grupo_negro.Controllers
             if (usuario != null)
             {
                 Console.WriteLine($"Usuario {usuario.Email} accedió al panel de saldo");
+                Console.WriteLine($"Saldo actual: ${usuario.Saldo:N2}");
             }
             
             return View(usuario);
