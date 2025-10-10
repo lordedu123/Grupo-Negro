@@ -63,6 +63,7 @@ namespace Grupo_negro.Controllers
 
             // Aquí iría la integración con PayPal/Yape
             // Por ahora simulamos un depósito exitoso
+            var montoAnterior = usuario.Saldo;
             usuario.Saldo += model.Monto;
             await _userManager.UpdateAsync(usuario);
 
