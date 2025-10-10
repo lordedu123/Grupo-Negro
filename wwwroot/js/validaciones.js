@@ -20,6 +20,7 @@ function validarFormulario(form) {
     
     if (errorCount > 0) {
         console.log(`Se encontraron ${errorCount} errores`);
+        mostrarMensajeError(`Total de errores: ${errorCount}`);
     }
     return isValid;
 }
