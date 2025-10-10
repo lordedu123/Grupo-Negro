@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Carlos\\Documents\\Grupo-Negro\\Grupo-negro.csproj": {}
+    "C:\\Users\\rs_va\\OneDrive\\Desktop\\Grupo-negro\\Grupo-negro.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Carlos\\Documents\\Grupo-Negro\\Grupo-negro.csproj": {
+    "C:\\Users\\rs_va\\OneDrive\\Desktop\\Grupo-negro\\Grupo-negro.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Carlos\\Documents\\Grupo-Negro\\Grupo-negro.csproj",
+        "projectUniqueName": "C:\\Users\\rs_va\\OneDrive\\Desktop\\Grupo-negro\\Grupo-negro.csproj",
         "projectName": "Grupo-negro",
-        "projectPath": "C:\\Users\\Carlos\\Documents\\Grupo-Negro\\Grupo-negro.csproj",
-        "packagesPath": "C:\\Users\\Carlos\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Carlos\\Documents\\Grupo-Negro\\obj\\",
+        "projectPath": "C:\\Users\\rs_va\\OneDrive\\Desktop\\Grupo-negro\\Grupo-negro.csproj",
+        "packagesPath": "C:\\Users\\rs_va\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\rs_va\\OneDrive\\Desktop\\Grupo-negro\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Carlos\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\rs_va\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"

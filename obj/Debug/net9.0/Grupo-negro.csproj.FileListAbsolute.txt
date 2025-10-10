@@ -22,9 +22,7 @@ C:\Users\rs_va\OneDrive\Desktop\Grupo-negro\obj\Debug\net9.0\rjsmcshtml.dswa.cac
 C:\Users\rs_va\OneDrive\Desktop\Grupo-negro\obj\Debug\net9.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\rs_va\OneDrive\Desktop\Grupo-negro\obj\Debug\net9.0\scopedcss\bundle\Grupo-negro.styles.css
 C:\Users\rs_va\OneDrive\Desktop\Grupo-negro\obj\Debug\net9.0\scopedcss\projectbundle\Grupo-negro.bundle.scp.css
-C:\Users\rs_va\OneDrive\Desktop\Grupo-negro\obj\Debug\net9.0\compressed\xhvbjngd69-b9sayid5wm.gz
 C:\Users\rs_va\OneDrive\Desktop\Grupo-negro\obj\Debug\net9.0\compressed\0lbbwl5972-61n19gt1b8.gz
-C:\Users\rs_va\OneDrive\Desktop\Grupo-negro\obj\Debug\net9.0\compressed\7ph16zyru6-xtxxf3hu2r.gz
 C:\Users\rs_va\OneDrive\Desktop\Grupo-negro\obj\Debug\net9.0\compressed\33lf5wtzgd-bqjiyaj88i.gz
 C:\Users\rs_va\OneDrive\Desktop\Grupo-negro\obj\Debug\net9.0\compressed\5v4uaa6k1v-c2jlpeoesf.gz
 C:\Users\rs_va\OneDrive\Desktop\Grupo-negro\obj\Debug\net9.0\compressed\kdm3c3roz1-erw9l3u2r3.gz
@@ -273,3 +271,4 @@ C:\Users\Carlos\Documents\Grupo-Negro\obj\Debug\net9.0\Grupo-negro.sourcelink.js
 C:\Users\Carlos\Documents\Grupo-Negro\obj\Debug\net9.0\Grupo-negro.dll
 C:\Users\Carlos\Documents\Grupo-Negro\obj\Debug\net9.0\refint\Grupo-negro.dll
 C:\Users\Carlos\Documents\Grupo-Negro\obj\Debug\net9.0\Grupo-negro.pdb
+C:\Users\rs_va\OneDrive\Desktop\Grupo-negro\obj\Debug\net9.0\compressed\xhvbjngd69-6hhg4ylfp5.gz
