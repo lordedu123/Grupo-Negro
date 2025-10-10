@@ -45,6 +45,8 @@ namespace Grupo_negro.Models
         [Display(Name = "PayPal")]
         PayPal = 1,
         [Display(Name = "Yape")]
-        Yape = 2
+        Yape = 2,
+        [Display(Name = "Transferencia Bancaria")]
+        Transferencia = 3
     }
 }
