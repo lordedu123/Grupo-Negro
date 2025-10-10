@@ -75,6 +75,10 @@ namespace Grupo_negro.Controllers
             await _userManager.UpdateAsync(usuario);
 
             TempData["SuccessMessage"] = $"Depósito de ${model.Monto:N2} realizado exitosamente.";
+            
+            // Log de transacción exitosa
+            Console.WriteLine($"Depósito exitoso: Usuario {usuario.Email}, Monto ${model.Monto:N2}");
+            
             return RedirectToAction(nameof(Index));
         }
 
