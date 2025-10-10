@@ -66,11 +66,13 @@ namespace Grupo_negro.Controllers
         // GET: /Apuestas/Apostar/{partidoId}
         public async Task<IActionResult> Apostar(int partidoId)
         {
+            // Optimización: consulta más específica
             var partido = await _context.Partidos
                 .Include(p => p.EquipoLocal)
                 .Include(p => p.EquipoVisitante)
                 .Include(p => p.Liga)
-                .FirstOrDefaultAsync(p => p.Id == partidoId);
+                .Where(p => p.Id == partidoId && p.Estado == EstadoPartido.Programado)
+                .FirstOrDefaultAsync();
 
             if (partido == null || partido.Estado != EstadoPartido.Programado)
             {
