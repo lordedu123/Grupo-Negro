@@ -7,6 +7,7 @@ function validarFormulario(form) {
     inputs.forEach(input => {
         if (!input.value.trim()) {
             isValid = false;
+            errorCount++;
             input.classList.add('error');
         } else {
             input.classList.remove('error');
