@@ -1,4 +1,8 @@
 // Validaciones adicionales para formularios
+function mostrarMensajeError(mensaje) {
+    console.error('Error de validación:', mensaje);
+}
+
 function validarFormulario(form) {
     const inputs = form.querySelectorAll('input[required]');
     let isValid = true;
