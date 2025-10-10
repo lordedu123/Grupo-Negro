@@ -1,0 +1,186 @@
+@model AdminDashboardViewModel
+@{
+    ViewData["Title"] = "Panel de Administrador";
+}
+
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h2><i class="fas fa-tachometer-alt"></i> Panel de Administrador</h2>
+            <p class="text-muted">Gestiona las apuestas y usuarios del sistema</p>
+        </div>
+    </div>
+
+    <!-- Tarjetas de estadísticas -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h4>@Model.TotalUsuarios</h4>
+                            <p class="card-text">Total Usuarios</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-users fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h4>@Model.TotalApuestas</h4>
+                            <p class="card-text">Total Apuestas</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-chart-line fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-warning">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h4>@Model.ApuestasActivas</h4>
+                            <p class="card-text">Apuestas Activas</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-clock fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-info">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h4>$@Model.TotalMontoApostado.ToString("N2")</h4>
+                            <p class="card-text">Monto Total</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-dollar-sign fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Acciones rápidas -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-tools"></i> Acciones Rápidas</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a href="@Url.Action("Apuestas", "Admin")" class="btn btn-primary btn-lg w-100">
+                                <i class="fas fa-list"></i><br>
+                                Gestionar Apuestas
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="@Url.Action("Partidos", "Admin")" class="btn btn-success btn-lg w-100">
+                                <i class="fas fa-futbol"></i><br>
+                                Finalizar Partidos
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="@Url.Action("Usuarios", "Admin")" class="btn btn-info btn-lg w-100">
+                                <i class="fas fa-users"></i><br>
+                                Ver Usuarios
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Apuestas recientes -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-history"></i> Apuestas Recientes</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.ApuestasRecientes.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Usuario</th>
+                                        <th>Partido</th>
+                                        <th>Apuesta</th>
+                                        <th>Monto</th>
+                                        <th>Estado</th>
+                                        <th>Fecha</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var apuesta in Model.ApuestasRecientes)
+                                    {
+                                        <tr>
+                                            <td>@apuesta.Usuario.NombreCompleto</td>
+                                            <td>
+                                                <small class="text-muted">@apuesta.Partido.Liga.Nombre</small><br>
+                                                @apuesta.Partido.EquipoLocal.Nombre vs @apuesta.Partido.EquipoVisitante.Nombre
+                                            </td>
+                                            <td>
+                                                @switch (apuesta.TipoApuesta)
+                                                {
+                                                    case TipoApuesta.GanaLocal:
+                                                        <span class="badge bg-primary">@apuesta.Partido.EquipoLocal.Nombre</span>
+                                                        break;
+                                                    case TipoApuesta.Empate:
+                                                        <span class="badge bg-secondary">Empate</span>
+                                                        break;
+                                                    case TipoApuesta.GanaVisitante:
+                                                        <span class="badge bg-primary">@apuesta.Partido.EquipoVisitante.Nombre</span>
+                                                        break;
+                                                }
+                                            </td>
+                                            <td>$@apuesta.MontoApostado.ToString("N2")</td>
+                                            <td>
+                                                @switch (apuesta.Estado)
+                                                {
+                                                    case EstadoApuesta.Activa:
+                                                        <span class="badge bg-warning">Activa</span>
+                                                        break;
+                                                    case EstadoApuesta.Ganada:
+                                                        <span class="badge bg-success">Ganada</span>
+                                                        break;
+                                                    case EstadoApuesta.Perdida:
+                                                        <span class="badge bg-danger">Perdida</span>
+                                                        break;
+                                                }
+                                            </td>
+                                            <td>@apuesta.FechaApuesta.ToString("dd/MM/yyyy HH:mm")</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted">No hay apuestas recientes.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

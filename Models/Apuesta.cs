@@ -25,7 +25,7 @@ namespace Grupo_negro.Models
 
         [Required]
         public string UsuarioId { get; set; } = string.Empty;
-        public IdentityUser Usuario { get; set; } = null!;
+        public ApplicationUser Usuario { get; set; } = null!;
 
         // Partido apostado
         public int PartidoId { get; set; }

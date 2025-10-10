@@ -1,0 +1,90 @@
+@model Grupo_negro.Models.DepositoViewModel
+
+@{
+    ViewData["Title"] = "Depositar Dinero";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4><i class="fas fa-plus-circle"></i> Depositar Dinero</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Depositar" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="Monto" class="form-label"></label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input asp-for="Monto" class="form-control" placeholder="0.00" step="0.01" />
+                            </div>
+                            <span asp-validation-for="Monto" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="MetodoPago" class="form-label"></label>
+                            <select asp-for="MetodoPago" class="form-select" id="metodoPago">
+                                <option value="">Selecciona un método</option>
+                                <option value="1">PayPal</option>
+                                <option value="2">Yape</option>
+                            </select>
+                            <span asp-validation-for="MetodoPago" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3" id="paypal-section" style="display: none;">
+                            <label asp-for="EmailPayPal" class="form-label">
+                                <i class="fab fa-paypal"></i> Email de PayPal
+                            </label>
+                            <input asp-for="EmailPayPal" class="form-control" type="email" placeholder="tu@email.com" />
+                            <span asp-validation-for="EmailPayPal" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3" id="yape-section" style="display: none;">
+                            <label asp-for="NumeroTelefono" class="form-label">
+                                <i class="fas fa-mobile-alt"></i> Número de teléfono para Yape
+                            </label>
+                            <input asp-for="NumeroTelefono" class="form-control" type="tel" placeholder="+51 999 999 999" />
+                            <span asp-validation-for="NumeroTelefono" class="text-danger"></span>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i>
+                            <strong>Importante:</strong> Los depósitos se procesan de forma segura. 
+                            PayPal y Yape son métodos de pago confiables y protegidos.
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="@Url.Action("Index", "Saldo")" class="btn btn-secondary me-md-2">
+                                <i class="fas fa-arrow-left"></i> Volver
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-credit-card"></i> Procesar Depósito
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('metodoPago').addEventListener('change', function() {
+        var paypalSection = document.getElementById('paypal-section');
+        var yapeSection = document.getElementById('yape-section');
+        
+        // Ocultar ambas secciones
+        paypalSection.style.display = 'none';
+        yapeSection.style.display = 'none';
+        
+        // Mostrar la sección correspondiente
+        if (this.value === '1') { // PayPal
+            paypalSection.style.display = 'block';
+        } else if (this.value === '2') { // Yape
+            yapeSection.style.display = 'block';
+        }
+    });
+</script>

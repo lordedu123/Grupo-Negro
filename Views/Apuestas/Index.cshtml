@@ -3,49 +3,72 @@
     ViewBag.Title = "Apuestas Deportivas";
 }
 
-<div class="container mt-4">
-    <div class="row">
+<div class="container-fluid mt-3">
+    <!-- Header Section -->
+    <div class="row mb-4">
         <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="text-primary">
-                    <i class="fas fa-futbol"></i> Apuestas de Fútbol
-                </h1>
-                <a asp-action="MisApuestas" class="btn btn-outline-primary">
-                    <i class="fas fa-list"></i> Mis Apuestas
-                </a>
+            <div class="card border-0 shadow-sm">
+                <div class="card-body bg-gradient text-white" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h2 class="mb-1">
+                                <i class="fas fa-futbol me-2"></i>Apuestas Deportivas
+                            </h2>
+                            <p class="mb-0 opacity-75">Encuentra las mejores cuotas en las ligas más importantes del mundo</p>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <a asp-action="MisApuestas" class="btn btn-light btn-lg">
+                                <i class="fas fa-history me-2"></i>Mis Apuestas
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="row mb-4">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0"><i class="fas fa-filter"></i> Filtrar por Liga</h5>
+    <div class="row">
+        <!-- Sidebar de Ligas -->
+        <div class="col-lg-3 col-md-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-white border-bottom">
+                    <h6 class="mb-0 text-muted fw-bold">
+                        <i class="fas fa-filter me-2"></i>FILTRAR POR LIGA
+                    </h6>
                 </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <button id="btnTodasLigas" class="btn btn-outline-secondary w-100 mb-2 liga-filter active" data-liga="0">
-                            <i class="fas fa-globe"></i> Todas las Ligas
-                        </button>
-                    </div>
-                    @if (ViewBag.Ligas != null)
-                    {
-                        @foreach (var liga in (List<Liga>)ViewBag.Ligas)
-                        {
-                            <button class="btn btn-outline-primary w-100 mb-2 liga-filter" data-liga="@liga.Id">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <span>@liga.Nombre</span>
-                                    <small class="text-muted">@liga.Pais</small>
+                <div class="card-body p-0">
+                    <div class="list-group list-group-flush">
+                        <button class="list-group-item list-group-item-action liga-filter active border-0 py-3" data-liga="0">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-globe text-primary me-3"></i>
+                                <div>
+                                    <div class="fw-semibold">Todas las Ligas</div>
+                                    <small class="text-muted">Ver todos los partidos</small>
                                 </div>
-                            </button>
+                            </div>
+                        </button>
+                        @if (ViewBag.Ligas != null)
+                        {
+                            @foreach (var liga in (List<Liga>)ViewBag.Ligas)
+                            {
+                                <button class="list-group-item list-group-item-action liga-filter border-0 py-3" data-liga="@liga.Id">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-trophy text-warning me-3"></i>
+                                        <div>
+                                            <div class="fw-semibold">@liga.Nombre</div>
+                                            <small class="text-muted">@liga.Pais</small>
+                                        </div>
+                                    </div>
+                                </button>
+                            }
                         }
-                    }
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-8">
+        <!-- Lista de Partidos -->
+        <div class="col-lg-9 col-md-8">
             <div id="partidosContainer">
                 @await Html.PartialAsync("_PartidosPartial", Model)
             </div>
@@ -55,25 +78,42 @@
 
 @section Scripts {
     <script>
-        $(document).ready(function() {
-            $('.liga-filter').click(function() {
-                // Remover clase active de todos los botones
-                $('.liga-filter').removeClass('active');
-                
-                // Agregar clase active al botón clickeado
-                $(this).addClass('active');
-                
-                var ligaId = $(this).data('liga');
-                
-                if (ligaId == 0) {
-                    // Mostrar todos los partidos
-                    location.reload();
-                } else {
-                    // Filtrar por liga específica
-                    $.get('@Url.Action("PorLiga", "Apuestas")/' + ligaId, function(data) {
-                        $('#partidosContainer').html(data);
-                    });
-                }
+        // Función para apuesta rápida
+        function quickBet(partidoId, tipoApuesta, cuota) {
+            const url = '@Url.Action("Apostar", "Apuestas")' + '/' + partidoId;
+            window.location.href = url;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Manejo de filtros de liga
+            const ligaFilters = document.querySelectorAll('.liga-filter');
+            
+            ligaFilters.forEach(filter => {
+                filter.addEventListener('click', function() {
+                    // Remover clase active de todos los botones
+                    ligaFilters.forEach(f => f.classList.remove('active'));
+                    
+                    // Agregar clase active al botón clickeado
+                    this.classList.add('active');
+                    
+                    const ligaId = this.getAttribute('data-liga');
+                    
+                    if (ligaId == '0') {
+                        // Mostrar todos los partidos
+                        location.reload();
+                    } else {
+                        // Filtrar por liga específica
+                        fetch('@Url.Action("PorLiga", "Apuestas")/' + ligaId)
+                            .then(response => response.text())
+                            .then(data => {
+                                document.getElementById('partidosContainer').innerHTML = data;
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert('Error al cargar los partidos');
+                            });
+                    }
+                });
             });
         });
     </script>

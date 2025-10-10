@@ -15,12 +15,12 @@ namespace Grupo_negro.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly DatosSimuladosService _datosService;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public ApuestasController(
             ApplicationDbContext context, 
             DatosSimuladosService datosService,
-            UserManager<IdentityUser> userManager)
+            UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _datosService = datosService;
@@ -78,6 +78,10 @@ namespace Grupo_negro.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            // Obtener el saldo del usuario
+            var usuario = await _userManager.GetUserAsync(User);
+            ViewBag.SaldoUsuario = usuario?.Saldo ?? 0m;
+
             var viewModel = new ApuestaViewModel
             {
                 PartidoId = partido.Id,
@@ -129,6 +133,20 @@ namespace Grupo_negro.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            // Verificar el saldo del usuario
+            var usuario = await _userManager.GetUserAsync(User);
+            if (usuario == null)
+            {
+                TempData["Error"] = "Error al obtener datos del usuario.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            if (usuario.Saldo < model.MontoApostado)
+            {
+                TempData["Error"] = $"Saldo insuficiente. Tu saldo actual es ${usuario.Saldo:F2}. Necesitas depositar más dinero para realizar esta apuesta.";
+                return RedirectToAction(nameof(Index));
+            }
+
             // Obtener la cuota según el tipo de apuesta
             decimal cuota = model.TipoApuesta switch
             {
@@ -137,6 +155,10 @@ namespace Grupo_negro.Controllers
                 TipoApuesta.GanaVisitante => partido.CuotaVisitante,
                 _ => 1.0m
             };
+
+            // Descontar el monto apostado del saldo del usuario
+            usuario.Saldo -= model.MontoApostado;
+            await _userManager.UpdateAsync(usuario);
 
             var apuesta = new Apuesta
             {

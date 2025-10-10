@@ -8,13 +8,13 @@ namespace Grupo_negro.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ApplicationDbContext _context;
 
         public AccountController(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             ApplicationDbContext context)
         {
             _userManager = userManager;
@@ -86,26 +86,20 @@ namespace Grupo_negro.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser 
+                { 
+                    UserName = model.Email, 
+                    Email = model.Email,
+                    Nombres = model.Nombres,
+                    Apellidos = model.Apellidos,
+                    DNI = model.DNI,
+                    Celular = model.Celular,
+                    Negocio = model.Negocio
+                };
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {
-                    // Crear registro adicional en tabla Usuarios
-                    var usuario = new Usuario
-                    {
-                        Nombres = model.Nombres,
-                        Apellidos = model.Apellidos,
-                        DNI = model.DNI,
-                        Celular = model.Celular,
-                        Correo = model.Email,
-                        Negocio = model.Negocio,
-                        Password = model.Password // Nota: En producción, no guardes la contraseña en texto plano
-                    };
-
-                    _context.Usuarios.Add(usuario);
-                    await _context.SaveChangesAsync();
-
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToLocal(returnUrl);
                 }

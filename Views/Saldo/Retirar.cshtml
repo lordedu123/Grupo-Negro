@@ -1,0 +1,91 @@
+@model Grupo_negro.Models.RetiroViewModel
+
+@{
+    ViewData["Title"] = "Retirar Dinero";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4><i class="fas fa-minus-circle"></i> Retirar Dinero</h4>
+                    <small class="text-muted">Saldo disponible: $@ViewBag.SaldoDisponible.ToString("N2")</small>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Retirar" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="Monto" class="form-label"></label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input asp-for="Monto" class="form-control" placeholder="0.00" step="0.01" max="@ViewBag.SaldoDisponible" />
+                            </div>
+                            <span asp-validation-for="Monto" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="MetodoRetiro" class="form-label"></label>
+                            <select asp-for="MetodoRetiro" class="form-select" id="metodoRetiro">
+                                <option value="">Selecciona un método</option>
+                                <option value="1">PayPal</option>
+                                <option value="2">Yape</option>
+                            </select>
+                            <span asp-validation-for="MetodoRetiro" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3" id="paypal-section" style="display: none;">
+                            <label asp-for="EmailPayPal" class="form-label">
+                                <i class="fab fa-paypal"></i> Email de PayPal
+                            </label>
+                            <input asp-for="EmailPayPal" class="form-control" type="email" placeholder="tu@email.com" />
+                            <span asp-validation-for="EmailPayPal" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3" id="yape-section" style="display: none;">
+                            <label asp-for="NumeroTelefono" class="form-label">
+                                <i class="fas fa-mobile-alt"></i> Número de teléfono para Yape
+                            </label>
+                            <input asp-for="NumeroTelefono" class="form-control" type="tel" placeholder="+51 999 999 999" />
+                            <span asp-validation-for="NumeroTelefono" class="text-danger"></span>
+                        </div>
+
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <strong>Importante:</strong> Los retiros pueden tardar hasta 24 horas en procesarse. 
+                            Asegúrate de que los datos de contacto sean correctos.
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="@Url.Action("Index", "Saldo")" class="btn btn-secondary me-md-2">
+                                <i class="fas fa-arrow-left"></i> Volver
+                            </a>
+                            <button type="submit" class="btn btn-warning">
+                                <i class="fas fa-money-bill-wave"></i> Procesar Retiro
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('metodoRetiro').addEventListener('change', function() {
+        var paypalSection = document.getElementById('paypal-section');
+        var yapeSection = document.getElementById('yape-section');
+        
+        // Ocultar ambas secciones
+        paypalSection.style.display = 'none';
+        yapeSection.style.display = 'none';
+        
+        // Mostrar la sección correspondiente
+        if (this.value === '1') { // PayPal
+            paypalSection.style.display = 'block';
+        } else if (this.value === '2') { // Yape
+            yapeSection.style.display = 'block';
+        }
+    });
+</script>

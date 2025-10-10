@@ -83,14 +83,31 @@
                             <span asp-validation-for="TipoApuesta" class="text-danger"></span>
                         </div>
 
+                        <!-- Información del saldo -->
+                        <div class="alert alert-info d-flex justify-content-between align-items-center">
+                            <div>
+                                <i class="fas fa-wallet"></i>
+                                <strong>Tu saldo actual:</strong>
+                            </div>
+                            <div>
+                                <span class="badge bg-success fs-6">$@ViewBag.SaldoUsuario.ToString("N2")</span>
+                                <a href="@Url.Action("Depositar", "Saldo")" class="btn btn-sm btn-outline-success ms-2">
+                                    <i class="fas fa-plus"></i> Depositar
+                                </a>
+                            </div>
+                        </div>
+
                         <div class="mb-3">
                             <label asp-for="MontoApostado" class="form-label fw-bold">Monto a apostar:</label>
                             <div class="input-group">
                                 <span class="input-group-text">$</span>
                                 <input asp-for="MontoApostado" class="form-control" type="number" 
-                                       min="1" max="10000" step="0.01" id="montoInput">
+                                       min="1" max="@ViewBag.SaldoUsuario" step="0.01" id="montoInput">
                             </div>
                             <span asp-validation-for="MontoApostado" class="text-danger"></span>
+                            <small class="form-text text-muted">
+                                Máximo disponible: $@ViewBag.SaldoUsuario.ToString("N2")
+                            </small>
                         </div>
 
                         <!-- Cálculo de ganancia en tiempo real -->
@@ -142,29 +159,40 @@
 
 @section Scripts {
     <script>
-        $(document).ready(function() {
+        document.addEventListener('DOMContentLoaded', function() {
+            const montoInput = document.getElementById('montoInput');
+            const montoMostrar = document.getElementById('montoMostrar');
+            const cuotaMostrar = document.getElementById('cuotaMostrar');
+            const gananciaMostrar = document.getElementById('gananciaMostrar');
+            const tipoApuestaInputs = document.querySelectorAll('input[name="TipoApuesta"]');
+            
+            const cuotas = {
+                '@((int)TipoApuesta.GanaLocal)': @Model.CuotaLocal,
+                '@((int)TipoApuesta.Empate)': @Model.CuotaEmpate,
+                '@((int)TipoApuesta.GanaVisitante)': @Model.CuotaVisitante
+            };
+            
             function actualizarCalculos() {
-                var monto = parseFloat($('#montoInput').val()) || 0;
-                var tipoApuesta = $('input[name="TipoApuesta"]:checked').val();
-                var cuota = 0;
+                const monto = parseFloat(montoInput.value) || 0;
+                const tipoApuestaSeleccionado = document.querySelector('input[name="TipoApuesta"]:checked');
+                let cuota = 0;
                 
-                if (tipoApuesta == '@((int)TipoApuesta.GanaLocal)') {
-                    cuota = @Model.CuotaLocal;
-                } else if (tipoApuesta == '@((int)TipoApuesta.Empate)') {
-                    cuota = @Model.CuotaEmpate;
-                } else if (tipoApuesta == '@((int)TipoApuesta.GanaVisitante)') {
-                    cuota = @Model.CuotaVisitante;
+                if (tipoApuestaSeleccionado) {
+                    cuota = cuotas[tipoApuestaSeleccionado.value] || 0;
                 }
                 
-                var ganancia = monto * cuota;
+                const ganancia = monto * cuota;
                 
-                $('#montoMostrar').text(monto.toFixed(2));
-                $('#cuotaMostrar').text(cuota > 0 ? cuota.toFixed(2) : '-');
-                $('#gananciaMostrar').text(ganancia.toFixed(2));
+                montoMostrar.textContent = monto.toFixed(2);
+                cuotaMostrar.textContent = cuota > 0 ? cuota.toFixed(2) : '-';
+                gananciaMostrar.textContent = ganancia.toFixed(2);
             }
             
-            $('#montoInput').on('input', actualizarCalculos);
-            $('input[name="TipoApuesta"]').on('change', actualizarCalculos);
+            // Agregar event listeners
+            montoInput.addEventListener('input', actualizarCalculos);
+            tipoApuestaInputs.forEach(input => {
+                input.addEventListener('change', actualizarCalculos);
+            });
             
             // Actualizar al cargar la página
             actualizarCalculos();

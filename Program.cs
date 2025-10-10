@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Grupo_negro.Data;
+using Grupo_negro.Models;
+using Grupo_negro.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => 
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => 
 {
     // Configuración de contraseñas
     options.Password.RequireDigit = true;
@@ -32,6 +34,9 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 
 // Registrar servicio para datos simulados
 builder.Services.AddScoped<Grupo_negro.Services.DatosSimuladosService>();
+
+// Registrar servicio para usuario
+builder.Services.AddScoped<Grupo_negro.Services.UsuarioService>();
 
 builder.Services.AddControllersWithViews();
 
@@ -59,5 +64,7 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
+// Inicializar datos (roles y usuario admin)
+await Grupo_negro.Services.InicializacionService.InicializarDatos(app.Services);
 
 app.Run();

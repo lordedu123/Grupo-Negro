@@ -4,56 +4,95 @@
 {
     @foreach (var partido in Model)
     {
-        <div class="card mb-3">
-            <div class="card-header bg-light">
-                <div class="row align-items-center">
-                    <div class="col-md-8">
-                        <h6 class="mb-0">
-                            <span class="badge bg-primary me-2">@partido.Liga.Nombre</span>
-                            @partido.Jornada
-                        </h6>
-                        <small class="text-muted">
-                            <i class="fas fa-calendar"></i> @partido.FechaHora.ToString("dd/MM/yyyy HH:mm")
-                        </small>
-                    </div>
-                    <div class="col-md-4 text-end">
-                        <a asp-action="Apostar" asp-route-partidoId="@partido.Id" class="btn btn-success btn-sm">
-                            <i class="fas fa-money-bill-wave"></i> Apostar
-                        </a>
+        <div class="card mb-3 shadow-sm match-card">
+            <div class="card-body p-0">
+                <!-- Header del partido -->
+                <div class="match-header p-3 border-bottom">
+                    <div class="row align-items-center">
+                        <div class="col-sm-8">
+                            <div class="d-flex align-items-center">
+                                <span class="league-badge">@partido.Liga.Nombre</span>
+                                <span class="match-round">@partido.Jornada</span>
+                            </div>
+                            <small class="text-muted mt-1 d-block">
+                                <i class="fas fa-calendar-alt me-1"></i>
+                                @partido.FechaHora.ToString("dddd, dd MMM yyyy - HH:mm", new System.Globalization.CultureInfo("es-ES"))
+                            </small>
+                        </div>
+                        <div class="col-sm-4 text-end">
+                            <a asp-action="Apostar" asp-route-partidoId="@partido.Id" class="btn btn-success btn-lg match-bet-btn">
+                                <i class="fas fa-coins me-1"></i> Apostar
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="card-body">
-                <div class="row text-center">
-                    <!-- Equipo Local -->
-                    <div class="col-md-4">
-                        <div class="h-100 d-flex flex-column justify-content-center">
-                            <h5 class="mb-1">@partido.EquipoLocal.Nombre</h5>
-                            <small class="text-muted">@partido.EquipoLocal.Ciudad</small>
-                            <div class="mt-2">
-                                <span class="badge bg-success fs-6">@partido.CuotaLocal.ToString("F2")</span>
+
+                <!-- Contenido principal del partido -->
+                <div class="match-content p-4">
+                    <div class="row align-items-center text-center">
+                        <!-- Equipo Local -->
+                        <div class="col-lg-3 col-md-5 mb-3 mb-md-0">
+                            <div class="team-section">
+                                <div class="team-info">
+                                    <h5 class="team-name mb-1">@partido.EquipoLocal.Nombre</h5>
+                                    <small class="text-muted">@partido.EquipoLocal.Ciudad</small>
+                                </div>
+                                <div class="odds-section mt-2">
+                                    <div class="odds-label">Victoria Local</div>
+                                    <span class="odds-value odds-primary">@partido.CuotaLocal.ToString("F2")</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- VS y Empate -->
-                    <div class="col-md-4">
-                        <div class="h-100 d-flex flex-column justify-content-center">
-                            <h3 class="text-primary mb-2">VS</h3>
-                            <div>
-                                <small class="text-muted d-block">Empate</small>
-                                <span class="badge bg-warning fs-6">@partido.CuotaEmpate.ToString("F2")</span>
+                        <!-- VS Separator -->
+                        <div class="col-lg-2 col-md-2 mb-3 mb-md-0 vs-section">
+                            <div class="vs-container">
+                                <span class="vs-text">VS</span>
+                                <div class="draw-odds mt-2">
+                                    <div class="odds-label">Empate</div>
+                                    <span class="odds-value odds-warning">@partido.CuotaEmpate.ToString("F2")</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Equipo Visitante -->
-                    <div class="col-md-4">
-                        <div class="h-100 d-flex flex-column justify-content-center">
-                            <h5 class="mb-1">@partido.EquipoVisitante.Nombre</h5>
-                            <small class="text-muted">@partido.EquipoVisitante.Ciudad</small>
-                            <div class="mt-2">
-                                <span class="badge bg-success fs-6">@partido.CuotaVisitante.ToString("F2")</span>
+                        <!-- Equipo Visitante -->
+                        <div class="col-lg-3 col-md-5 mb-3 mb-md-0">
+                            <div class="team-section">
+                                <div class="team-info">
+                                    <h5 class="team-name mb-1">@partido.EquipoVisitante.Nombre</h5>
+                                    <small class="text-muted">@partido.EquipoVisitante.Ciudad</small>
+                                </div>
+                                <div class="odds-section mt-2">
+                                    <div class="odds-label">Victoria Visitante</div>
+                                    <span class="odds-value odds-primary">@partido.CuotaVisitante.ToString("F2")</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Bet Section -->
+                        <div class="col-lg-4 col-12">
+                            <div class="quick-bet-section">
+                                <div class="quick-bet-title">Apuesta Rápida</div>
+                                <div class="row g-2 mt-1">
+                                    <div class="col-4">
+                                        <button class="btn btn-outline-success btn-sm w-100 quick-bet-btn" 
+                                                onclick="quickBet(@partido.Id, 1, @partido.CuotaLocal)">
+                                            1<br><small>@partido.CuotaLocal.ToString("F2")</small>
+                                        </button>
+                                    </div>
+                                    <div class="col-4">
+                                        <button class="btn btn-outline-warning btn-sm w-100 quick-bet-btn" 
+                                                onclick="quickBet(@partido.Id, 2, @partido.CuotaEmpate)">
+                                            X<br><small>@partido.CuotaEmpate.ToString("F2")</small>
+                                        </button>
+                                    </div>
+                                    <div class="col-4">
+                                        <button class="btn btn-outline-success btn-sm w-100 quick-bet-btn" 
+                                                onclick="quickBet(@partido.Id, 3, @partido.CuotaVisitante)">
+                                            2<br><small>@partido.CuotaVisitante.ToString("F2")</small>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -64,12 +103,15 @@
 }
 else
 {
-    <div class="card">
-        <div class="card-body text-center">
-            <div class="my-5">
-                <i class="fas fa-search fa-3x text-muted mb-3"></i>
-                <h4 class="text-muted">No hay partidos disponibles</h4>
-                <p class="text-muted">No se encontraron partidos para esta liga en este momento.</p>
+    <div class="card shadow-sm">
+        <div class="card-body text-center py-5">
+            <div class="empty-state">
+                <i class="fas fa-futbol fa-4x text-muted mb-3"></i>
+                <h4 class="text-muted mb-2">No hay partidos disponibles</h4>
+                <p class="text-muted">No se encontraron partidos para la liga seleccionada en este momento.</p>
+                <button class="btn btn-outline-primary" onclick="location.reload()">
+                    <i class="fas fa-refresh me-1"></i> Actualizar
+                </button>
             </div>
         </div>
     </div>
