@@ -14,5 +14,8 @@ function validarFormulario(form) {
         }
     });
     
+    if (errorCount > 0) {
+        console.log(`Se encontraron ${errorCount} errores`);
+    }
     return isValid;
 }
