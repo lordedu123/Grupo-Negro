@@ -5218,19 +5218,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\rs_va\\.nuget\\packages\\": {}
+    "C:\\Users\\Carlos\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\rs_va\\OneDrive\\Desktop\\Grupo-negro\\Grupo-negro.csproj",
+      "projectUniqueName": "C:\\Users\\Carlos\\Documents\\Grupo-Negro\\Grupo-negro.csproj",
       "projectName": "Grupo-negro",
-      "projectPath": "C:\\Users\\rs_va\\OneDrive\\Desktop\\Grupo-negro\\Grupo-negro.csproj",
-      "packagesPath": "C:\\Users\\rs_va\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\rs_va\\OneDrive\\Desktop\\Grupo-negro\\obj\\",
+      "projectPath": "C:\\Users\\Carlos\\Documents\\Grupo-Negro\\Grupo-negro.csproj",
+      "packagesPath": "C:\\Users\\Carlos\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Carlos\\Documents\\Grupo-Negro\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\rs_va\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Carlos\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"

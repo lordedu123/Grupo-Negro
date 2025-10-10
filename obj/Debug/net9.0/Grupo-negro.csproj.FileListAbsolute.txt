@@ -260,3 +260,16 @@ C:\Users\rs_va\OneDrive\Desktop\Grupo-negro\bin\Debug\net9.0\runtimes\win-arm\na
 C:\Users\rs_va\OneDrive\Desktop\Grupo-negro\bin\Debug\net9.0\runtimes\win-arm64\native\e_sqlite3.dll
 C:\Users\rs_va\OneDrive\Desktop\Grupo-negro\bin\Debug\net9.0\runtimes\win-x64\native\e_sqlite3.dll
 C:\Users\rs_va\OneDrive\Desktop\Grupo-negro\bin\Debug\net9.0\runtimes\win-x86\native\e_sqlite3.dll
+C:\Users\Carlos\Documents\Grupo-Negro\obj\Debug\net9.0\Grupo-negro.csproj.AssemblyReference.cache
+C:\Users\Carlos\Documents\Grupo-Negro\obj\Debug\net9.0\rpswa.dswa.cache.json
+C:\Users\Carlos\Documents\Grupo-Negro\obj\Debug\net9.0\Grupo-negro.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Carlos\Documents\Grupo-Negro\obj\Debug\net9.0\Grupo-negro.AssemblyInfoInputs.cache
+C:\Users\Carlos\Documents\Grupo-Negro\obj\Debug\net9.0\Grupo-negro.AssemblyInfo.cs
+C:\Users\Carlos\Documents\Grupo-Negro\obj\Debug\net9.0\Grupo-negro.csproj.CoreCompileInputs.cache
+C:\Users\Carlos\Documents\Grupo-Negro\obj\Debug\net9.0\Grupo-negro.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Carlos\Documents\Grupo-Negro\obj\Debug\net9.0\Grupo-negro.RazorAssemblyInfo.cache
+C:\Users\Carlos\Documents\Grupo-Negro\obj\Debug\net9.0\Grupo-negro.RazorAssemblyInfo.cs
+C:\Users\Carlos\Documents\Grupo-Negro\obj\Debug\net9.0\Grupo-negro.sourcelink.json
+C:\Users\Carlos\Documents\Grupo-Negro\obj\Debug\net9.0\Grupo-negro.dll
+C:\Users\Carlos\Documents\Grupo-Negro\obj\Debug\net9.0\refint\Grupo-negro.dll
+C:\Users\Carlos\Documents\Grupo-Negro\obj\Debug\net9.0\Grupo-negro.pdb

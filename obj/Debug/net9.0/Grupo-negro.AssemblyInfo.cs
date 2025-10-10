@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Grupo-negro")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9eb27f89075ac559bc50f0dff094019b8177ecce")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+06c18c81e0c1825a1b84a22891a55f5c55879be9")]
 [assembly: System.Reflection.AssemblyProductAttribute("Grupo-negro")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Grupo-negro")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
