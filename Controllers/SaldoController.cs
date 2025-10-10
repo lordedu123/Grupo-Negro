@@ -48,6 +48,13 @@ namespace Grupo_negro.Controllers
                 return View(model);
             }
 
+            // Validación de monto máximo
+            if (model.Monto > 10000)
+            {
+                ModelState.AddModelError("Monto", "El monto no puede exceder $10,000");
+                return View(model);
+            }
+
             var usuario = await _userManager.GetUserAsync(User);
             if (usuario == null)
             {
