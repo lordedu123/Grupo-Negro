@@ -12,8 +12,11 @@ namespace Grupo_negro.Configuration
         public static bool RESOLUCION_APUESTAS_HABILITADO = true;
         public static bool ROLES_SISTEMA_HABILITADO = true;
         
-        // Funcionalidades siempre activas (base del sistema)
+        // Funcionalidades base (siempre activas)
         public static bool SISTEMA_APUESTAS_BASE = true;
         public static bool AUTENTICACION_BASICA = true;
+        
+        // Configuración de debugging
+        public static bool DEBUG_MODE = false;
     }
 }
