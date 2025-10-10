@@ -7,6 +7,7 @@ namespace Grupo_negro.Models
         [Required(ErrorMessage = "El monto es requerido")]
         [Range(0.01, 10000.00, ErrorMessage = "El monto debe estar entre $0.01 y $10,000.00")]
         [Display(Name = "Monto a depositar")]
+        [DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = false)]
         public decimal Monto { get; set; }
 
         [Required(ErrorMessage = "Selecciona un método de pago")]
