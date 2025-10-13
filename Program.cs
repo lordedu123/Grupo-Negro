@@ -38,6 +38,10 @@ builder.Services.AddScoped<Grupo_negro.Services.DatosSimuladosService>();
 // Registrar servicio para usuario
 builder.Services.AddScoped<Grupo_negro.Services.UsuarioService>();
 
+// Registrar servicio de cookies
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<Grupo_negro.Services.CookieService>();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

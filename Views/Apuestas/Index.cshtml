@@ -32,9 +32,33 @@
         <div class="col-lg-3 col-md-4 mb-4">
             <div class="card shadow-sm h-100">
                 <div class="card-header bg-white border-bottom">
-                    <h6 class="mb-0 text-muted fw-bold">
-                        <i class="fas fa-filter me-2"></i>FILTRAR POR LIGA
-                    </h6>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h6 class="mb-0 text-muted fw-bold">
+                            <i class="fas fa-filter me-2"></i>FILTRAR POR LIGA
+                        </h6>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-cog"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><button class="dropdown-item" type="button" onclick="limpiarPreferencias()">
+                                    <i class="fas fa-eraser me-2"></i>Limpiar Preferencias
+                                </button></li>
+                            </ul>
+                        </div>
+                    </div>
+                    @if (ViewBag.LigaFavorita != null)
+                    {
+                        <div class="alert alert-info alert-sm mt-2 mb-0 py-1">
+                            <small><i class="fas fa-heart me-1"></i>Liga favorita: <strong>@ViewBag.LigaFavorita</strong></small>
+                        </div>
+                    }
+                    @if (ViewBag.UltimaVisita != null)
+                    {
+                        <div class="alert alert-secondary alert-sm mt-2 mb-0 py-1">
+                            <small><i class="fas fa-clock me-1"></i>Última visita: <strong>@ViewBag.UltimaVisita</strong></small>
+                        </div>
+                    }
                 </div>
                 <div class="card-body p-0">
                     <div class="list-group list-group-flush">
@@ -52,12 +76,17 @@
                             @foreach (var liga in (List<Liga>)ViewBag.Ligas)
                             {
                                 <button class="list-group-item list-group-item-action liga-filter border-0 py-3" data-liga="@liga.Id">
-                                    <div class="d-flex align-items-center">
-                                        <i class="fas fa-trophy text-warning me-3"></i>
-                                        <div>
-                                            <div class="fw-semibold">@liga.Nombre</div>
-                                            <small class="text-muted">@liga.Pais</small>
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-trophy text-warning me-3"></i>
+                                            <div>
+                                                <div class="fw-semibold">@liga.Nombre</div>
+                                                <small class="text-muted">@liga.Pais</small>
+                                            </div>
                                         </div>
+                                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="guardarLigaFavorita(@liga.Id, '@liga.Nombre')" title="Marcar como favorita">
+                                            <i class="fas fa-heart"></i>
+                                        </button>
                                     </div>
                                 </button>
                             }
@@ -82,6 +111,65 @@
         function quickBet(partidoId, tipoApuesta, cuota) {
             const url = '@Url.Action("Apostar", "Apuestas")' + '/' + partidoId;
             window.location.href = url;
+        }
+
+        // Función para guardar liga favorita
+        function guardarLigaFavorita(ligaId, ligaNombre) {
+            fetch('@Url.Action("GuardarLigaFavorita", "Apuestas")', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: 'ligaId=' + encodeURIComponent(ligaId)
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Mostrar mensaje de éxito
+                    const alert = document.createElement('div');
+                    alert.className = 'alert alert-success alert-dismissible fade show position-fixed';
+                    alert.style.top = '20px';
+                    alert.style.right = '20px';
+                    alert.style.zIndex = '9999';
+                    alert.innerHTML = `
+                        <i class="fas fa-heart me-2"></i>${ligaNombre} marcada como favorita!
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    `;
+                    document.body.appendChild(alert);
+                    
+                    // Auto-remover después de 3 segundos
+                    setTimeout(() => {
+                        if (alert.parentElement) {
+                            alert.remove();
+                        }
+                    }, 3000);
+                } else {
+                    console.error('Error al guardar liga favorita');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        // Función para limpiar preferencias
+        function limpiarPreferencias() {
+            if (confirm('¿Estás seguro de que quieres limpiar todas tus preferencias?')) {
+                fetch('@Url.Action("LimpiarPreferencias", "Apuestas")', {
+                    method: 'POST',
+                    headers: {
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        location.reload();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
         }
 
         document.addEventListener('DOMContentLoaded', function() {

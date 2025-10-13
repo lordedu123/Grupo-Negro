@@ -16,15 +16,18 @@ namespace Grupo_negro.Controllers
         private readonly ApplicationDbContext _context;
         private readonly DatosSimuladosService _datosService;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly CookieService _cookieService;
 
         public ApuestasController(
             ApplicationDbContext context, 
             DatosSimuladosService datosService,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            CookieService cookieService)
         {
             _context = context;
             _datosService = datosService;
             _userManager = userManager;
+            _cookieService = cookieService;
         }
 
         // GET: /Apuestas
@@ -32,6 +35,13 @@ namespace Grupo_negro.Controllers
         {
             // Inicializar datos simulados si no existen
             await _datosService.InicializarDatosAsync();
+
+            // Guardar última visita a apuestas
+            _cookieService.SetCookie("UltimaVisitaApuestas", DateTime.Now.ToString("dd/MM/yyyy HH:mm"), 30);
+            
+            // Obtener liga favorita del usuario
+            var ligaFavorita = _cookieService.GetCookie("LigaFavorita");
+            ViewBag.LigaFavorita = ligaFavorita;
 
             // Obtener todas las ligas para el filtro
             var ligas = await _context.Ligas.ToListAsync();
@@ -197,6 +207,28 @@ namespace Grupo_negro.Controllers
                 .ToListAsync();
 
             return View(apuestas);
+        }
+
+        [HttpPost]
+        public IActionResult GuardarLigaFavorita(string ligaId)
+        {
+            if (!string.IsNullOrEmpty(ligaId))
+            {
+                _cookieService.SetCookie("LigaFavorita", ligaId, 365); // Cookie por 1 año
+                TempData["Success"] = "Liga favorita guardada correctamente";
+            }
+            
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult LimpiarPreferencias()
+        {
+            _cookieService.DeleteCookie("LigaFavorita");
+            _cookieService.DeleteCookie("UltimaVisitaApuestas");
+            TempData["Success"] = "Preferencias limpiadas correctamente";
+            
+            return RedirectToAction("Index");
         }
     }
 }

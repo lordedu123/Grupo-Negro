@@ -21,3 +21,88 @@
 .btn-custom:active {
     transform: translateY(0);
 }
+
+/* Estilos para temas */
+.tema-oscuro {
+    background-color: #121212 !important;
+    color: #ffffff !important;
+}
+
+.tema-oscuro .card {
+    background-color: #1e1e1e !important;
+    border-color: #333 !important;
+    color: #ffffff !important;
+}
+
+.tema-oscuro .apuesta-card {
+    background-color: #1e1e1e !important;
+    border: 1px solid #333 !important;
+    color: #ffffff !important;
+}
+
+.tema-oscuro .navbar {
+    background-color: #1a1a1a !important;
+}
+
+.tema-oscuro .navbar-brand, .tema-oscuro .nav-link {
+    color: #ffffff !important;
+}
+
+.tema-oscuro .list-group-item {
+    background-color: #1e1e1e !important;
+    border-color: #333 !important;
+    color: #ffffff !important;
+}
+
+.tema-oscuro .btn-outline-primary {
+    color: #4dabf7 !important;
+    border-color: #4dabf7 !important;
+}
+
+.tema-oscuro .btn-outline-primary:hover {
+    background-color: #4dabf7 !important;
+    color: #ffffff !important;
+}
+
+.tema-claro {
+    background-color: #ffffff !important;
+    color: #212529 !important;
+}
+
+.tema-claro .card {
+    background-color: #ffffff !important;
+    color: #212529 !important;
+}
+
+.tema-claro .apuesta-card {
+    background-color: #ffffff !important;
+    color: #212529 !important;
+}
+
+/* Transiciones suaves para cambios de tema */
+body, .card, .apuesta-card, .navbar, .list-group-item {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Estilos para alertas de preferencias */
+.alert-sm {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+}
+
+/* Botones de corazón para favoritos */
+.btn-outline-danger:hover i.fas.fa-heart {
+    animation: heartbeat 0.6s ease-in-out;
+}
+
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* Estilos para mensajes flotantes */
+.position-fixed.alert {
+    min-width: 300px;
+    max-width: 400px;
+}
