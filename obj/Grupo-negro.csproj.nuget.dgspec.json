@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\rs_va\\OneDrive\\Desktop\\Grupo-negro\\Grupo-negro.csproj": {}
+    "C:\\Users\\Eduardo\\Downloads\\Infoyachay\\Grupo-Negro\\Grupo-negro.csproj": {}
   },
   "projects": {
-    "C:\\Users\\rs_va\\OneDrive\\Desktop\\Grupo-negro\\Grupo-negro.csproj": {
+    "C:\\Users\\Eduardo\\Downloads\\Infoyachay\\Grupo-Negro\\Grupo-negro.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\rs_va\\OneDrive\\Desktop\\Grupo-negro\\Grupo-negro.csproj",
+        "projectUniqueName": "C:\\Users\\Eduardo\\Downloads\\Infoyachay\\Grupo-Negro\\Grupo-negro.csproj",
         "projectName": "Grupo-negro",
-        "projectPath": "C:\\Users\\rs_va\\OneDrive\\Desktop\\Grupo-negro\\Grupo-negro.csproj",
-        "packagesPath": "C:\\Users\\rs_va\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\rs_va\\OneDrive\\Desktop\\Grupo-negro\\obj\\",
+        "projectPath": "C:\\Users\\Eduardo\\Downloads\\Infoyachay\\Grupo-Negro\\Grupo-negro.csproj",
+        "packagesPath": "C:\\Users\\Eduardo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Eduardo\\Downloads\\Infoyachay\\Grupo-Negro\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\rs_va\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Eduardo\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -47,6 +47,10 @@
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
               "version": "[9.0.9, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.10, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
